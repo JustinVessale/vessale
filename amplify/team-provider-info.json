@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-vessale-dev-16db3-authRole",
+      "UnauthRoleArn": "arn:aws:iam::593793028160:role/amplify-vessale-dev-16db3-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::593793028160:role/amplify-vessale-dev-16db3-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-vessale-dev-16db3-deployment",
+      "UnauthRoleName": "amplify-vessale-dev-16db3-unauthRole",
+      "StackName": "amplify-vessale-dev-16db3",
+      "StackId": "arn:aws:cloudformation:us-east-2:593793028160:stack/amplify-vessale-dev-16db3/1b7bbd70-6b98-11ef-9277-060dc39afee3",
+      "AmplifyAppId": "d1wjscxoiomy47"
+    },
+    "categories": {
+      "api": {
+        "vessale": {}
+      }
+    }
+  }
+}
