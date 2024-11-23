@@ -1,9 +1,15 @@
 import React from 'react';
 import { mockMenuData } from '../data/mockMenu';
-import { MenuItem } from '../types/MenuItem';
+import type { MenuItem } from '../types/MenuItem';
+import { useCart } from '../context/CartContext';
 
 const Menu: React.FC = () => {
   const [selectedItem, setSelectedItem] = React.useState<MenuItem | null>(null);
+  const { dispatch } = useCart();
+
+  const addToCart = (item: MenuItem) => {
+    dispatch({ type: 'ADD_ITEM', payload: item });
+  };
 
   return (
     <div className="py-8">
@@ -45,8 +51,7 @@ const Menu: React.FC = () => {
                     className="mt-4 w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition-colors"
                     onClick={(e) => {
                       e.stopPropagation();
-                      // We'll implement add to cart functionality later
-                      console.log('Add to cart:', item);
+                      addToCart(item);
                     }}
                   >
                     Add to Cart
@@ -80,8 +85,7 @@ const Menu: React.FC = () => {
                 <button
                   className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
                   onClick={() => {
-                    // We'll implement add to cart functionality later
-                    console.log('Add to cart from modal:', selectedItem);
+                    addToCart(selectedItem);
                     setSelectedItem(null);
                   }}
                 >

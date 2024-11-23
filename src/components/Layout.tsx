@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
-import { ShoppingCart } from 'lucide-react';
+import { ShoppingCart, Minus, Plus, X } from 'lucide-react';
+import { useCart } from '../context/CartContext';
 
 interface LayoutProps {
   children: ReactNode;
@@ -7,7 +8,16 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [isCartOpen, setIsCartOpen] = React.useState(false);
+  const { state, dispatch } = useCart();
   
+  const updateQuantity = (itemId: string, newQuantity: number) => {
+    if (newQuantity < 1) {
+      dispatch({ type: 'REMOVE_ITEM', payload: itemId });
+    } else {
+      dispatch({ type: 'UPDATE_QUANTITY', payload: { id: itemId, quantity: newQuantity } });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -22,9 +32,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <div className="md:hidden">
               <button
                 onClick={() => setIsCartOpen(!isCartOpen)}
-                className="p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100"
+                className="p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 relative"
               >
                 <ShoppingCart className="h-6 w-6" />
+                {state.items.length > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    {state.items.reduce((acc, item) => acc + item.quantity, 0)}
+                  </span>
+                )}
               </button>
             </div>
             
@@ -32,10 +47,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <div className="hidden md:block">
               <button
                 onClick={() => setIsCartOpen(!isCartOpen)}
-                className="flex items-center px-4 py-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100"
+                className="flex items-center px-4 py-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 relative"
               >
                 <ShoppingCart className="h-6 w-6 mr-2" />
-                <span>Cart (0)</span>
+                <span>Cart ({state.items.reduce((acc, item) => acc + item.quantity, 0)})</span>
               </button>
             </div>
           </div>
@@ -48,15 +63,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           {children}
         </div>
       </main>
-
-      {/* Mobile bottom nav */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t md:hidden">
-        <div className="flex justify-around items-center h-16">
-          <button className="flex flex-col items-center justify-center w-full h-full text-gray-700 hover:text-gray-900">
-            <span className="text-sm">Menu</span>
-          </button>
-        </div>
-      </nav>
 
       {/* Cart sidebar */}
       {isCartOpen && (
@@ -72,26 +78,65 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                       onClick={() => setIsCartOpen(false)}
                       className="ml-3 h-7 flex items-center"
                     >
-                      <span className="sr-only">Close panel</span>
-                      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                      </svg>
+                      <X className="h-6 w-6" />
                     </button>
                   </div>
                   
-                  {/* Cart items will go here */}
-                  <div className="mt-8">
-                    <p className="text-gray-500">No items in cart</p>
-                  </div>
+                  {state.items.length === 0 ? (
+                    <p className="mt-8 text-gray-500">No items in cart</p>
+                  ) : (
+                    <div className="mt-8">
+                      <div className="flow-root">
+                        <ul className="divide-y divide-gray-200">
+                          {state.items.map((item) => (
+                            <li key={item.id} className="py-6 flex">
+                              <div className="flex-1 ml-4">
+                                <div className="flex justify-between">
+                                  <h3 className="text-sm font-medium">{item.name}</h3>
+                                  <p className="ml-4 text-sm font-medium">${(item.price * item.quantity).toFixed(2)}</p>
+                                </div>
+                                <div className="mt-4 flex items-center">
+                                  <button
+                                    onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                                    className="p-1 rounded-md hover:bg-gray-100"
+                                  >
+                                    <Minus className="h-4 w-4" />
+                                  </button>
+                                  <span className="mx-2">{item.quantity}</span>
+                                  <button
+                                    onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                                    className="p-1 rounded-md hover:bg-gray-100"
+                                  >
+                                    <Plus className="h-4 w-4" />
+                                  </button>
+                                  <button
+                                    onClick={() => dispatch({ type: 'REMOVE_ITEM', payload: item.id })}
+                                    className="ml-4 text-sm text-red-600 hover:text-red-500"
+                                  >
+                                    Remove
+                                  </button>
+                                </div>
+                              </div>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className="border-t border-gray-200 p-6">
                   <div className="flex justify-between text-base font-medium text-gray-900">
                     <p>Subtotal</p>
-                    <p>$0.00</p>
+                    <p>${state.total.toFixed(2)}</p>
                   </div>
                   <button
-                    className="w-full mt-6 bg-blue-600 border border-transparent rounded-md py-3 px-8 text-base font-medium text-white hover:bg-blue-700"
+                    className="w-full mt-6 bg-blue-600 border border-transparent rounded-md py-3 px-8 text-base font-medium text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={state.items.length === 0}
+                    onClick={() => {
+                      // We'll implement checkout later
+                      console.log('Proceeding to checkout');
+                    }}
                   >
                     Checkout
                   </button>
