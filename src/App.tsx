@@ -5,7 +5,6 @@ import Layout from './components/Layout';
 import Menu from './components/Menu'; 
 import { CartProvider } from './context/CartContext';
 
-const client = generateClient<Schema>();
 
   function App() {
     return (
