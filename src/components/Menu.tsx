@@ -2,13 +2,20 @@ import React from 'react';
 import { mockMenuData } from '../data/mockMenu';
 import type { MenuItem } from '../types/MenuItem';
 import { useCart } from '../context/CartContext';
+import { useToast } from "@/components/ui/use-toast";
 
 const Menu: React.FC = () => {
   const [selectedItem, setSelectedItem] = React.useState<MenuItem | null>(null);
   const { dispatch } = useCart();
+  const { toast } = useToast();
 
   const addToCart = (item: MenuItem) => {
     dispatch({ type: 'ADD_ITEM', payload: item });
+    toast({
+      title: "Added to cart",
+      description: `${item.name} has been added to your cart.`,
+      duration: 2000,
+    });
   };
 
   return (
