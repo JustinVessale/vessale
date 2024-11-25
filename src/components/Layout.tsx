@@ -1,6 +1,8 @@
 import React, { ReactNode } from 'react';
 import { ShoppingCart, Minus, Plus, X } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { useToast } from "@/components/ui/use-toast";
+import { Toaster } from "@/components/ui/toaster";
 
 interface LayoutProps {
   children: ReactNode;
@@ -9,12 +11,26 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [isCartOpen, setIsCartOpen] = React.useState(false);
   const { state, dispatch } = useCart();
+  const { toast } = useToast();
   
   const updateQuantity = (itemId: string, newQuantity: number) => {
+    const item = state.items.find(item => item.id === itemId);
+    if (!item) return;
+
     if (newQuantity < 1) {
       dispatch({ type: 'REMOVE_ITEM', payload: itemId });
+      toast({
+        title: "Item removed",
+        description: `${item.name} has been removed from your cart.`,
+        duration: 2000,
+      });
     } else {
       dispatch({ type: 'UPDATE_QUANTITY', payload: { id: itemId, quantity: newQuantity } });
+      toast({
+        title: "Quantity updated",
+        description: `${item.name} quantity updated to ${newQuantity}.`,
+        duration: 2000,
+      });
     }
   };
 
@@ -110,7 +126,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                                     <Plus className="h-4 w-4" />
                                   </button>
                                   <button
-                                    onClick={() => dispatch({ type: 'REMOVE_ITEM', payload: item.id })}
+                                    onClick={() => {
+                                      dispatch({ type: 'REMOVE_ITEM', payload: item.id });
+                                      toast({
+                                        title: "Item removed",
+                                        description: `${item.name} has been removed from your cart.`,
+                                        duration: 2000,
+                                      });
+                                    }}
                                     className="ml-4 text-sm text-red-600 hover:text-red-500"
                                   >
                                     Remove
@@ -146,6 +169,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           </div>
         </div>
       )}
+      
+      {/* Add Toaster component */}
+      <Toaster />
     </div>
   );
 };
