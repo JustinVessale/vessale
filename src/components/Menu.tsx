@@ -1,5 +1,5 @@
 import React from 'react';
-import { MenuItem } from '../models';
+import { MenuItem } from '../API';
 import { useCart } from '../context/CartContext';
 import { useToast } from "@/components/ui/use-toast";
 import { useCurrentRestaurant } from '../hooks/useCurrentRestaurant';
@@ -49,7 +49,7 @@ const Menu: React.FC = () => {
           <section key={category.id} id={category.id}>
             <h2 className="text-2xl font-bold mb-6">{category.name}</h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {category.items.map((item: MenuItem) => (
+              {category.items?.items.map((item) => item &&(
                 <div
                   key={item.id}
                   className="border rounded-lg p-4 hover:shadow-lg transition-shadow cursor-pointer"

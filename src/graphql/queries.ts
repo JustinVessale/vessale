@@ -355,3 +355,16 @@ export const ordersByRestaurantID = /* GraphQL */ `query OrdersByRestaurantID(
   APITypes.OrdersByRestaurantIDQueryVariables,
   APITypes.OrdersByRestaurantIDQuery
 >;
+export const GET_RESTAURANT_BY_SUBDOMAIN = /* GraphQL */ `
+ query GetRestaurantBySubdomain($subdomain: String!) {
+   listRestaurants(filter: { subdomain: { eq: $subdomain } }) {
+     items {
+       id
+       name
+       subdomain
+       branding_banner
+       branding_color
+     }
+   }
+ }
+`;
