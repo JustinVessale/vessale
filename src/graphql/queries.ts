@@ -8,113 +8,65 @@ type GeneratedQuery<InputType, OutputType> = string & {
   __generatedQueryOutput: OutputType;
 };
 
-export const getBlog = /* GraphQL */ `query GetBlog($id: ID!) {
-  getBlog(id: $id) {
+export const getChain = /* GraphQL */ `query GetChain($id: ID!) {
+  getChain(id: $id) {
     id
     name
-    posts {
-      nextToken
-      __typename
-    }
+    branding_banner
+    branding_primary_color
+    restaurantID
     createdAt
     updatedAt
     __typename
   }
 }
-` as GeneratedQuery<APITypes.GetBlogQueryVariables, APITypes.GetBlogQuery>;
-export const listBlogs = /* GraphQL */ `query ListBlogs(
-  $filter: ModelBlogFilterInput
+` as GeneratedQuery<APITypes.GetChainQueryVariables, APITypes.GetChainQuery>;
+export const listChains = /* GraphQL */ `query ListChains(
+  $filter: ModelChainFilterInput
   $limit: Int
   $nextToken: String
 ) {
-  listBlogs(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  listChains(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
       name
+      branding_banner
+      branding_primary_color
+      restaurantID
       createdAt
       updatedAt
       __typename
     }
     nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<APITypes.ListBlogsQueryVariables, APITypes.ListBlogsQuery>;
-export const getPost = /* GraphQL */ `query GetPost($id: ID!) {
-  getPost(id: $id) {
-    id
-    title
-    blog {
-      id
-      name
-      createdAt
-      updatedAt
-      __typename
-    }
-    comments {
-      nextToken
-      __typename
-    }
-    createdAt
-    updatedAt
-    blogPostsId
-    __typename
-  }
-}
-` as GeneratedQuery<APITypes.GetPostQueryVariables, APITypes.GetPostQuery>;
-export const listPosts = /* GraphQL */ `query ListPosts(
-  $filter: ModelPostFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listPosts(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      id
-      title
-      createdAt
-      updatedAt
-      blogPostsId
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<APITypes.ListPostsQueryVariables, APITypes.ListPostsQuery>;
-export const getComment = /* GraphQL */ `query GetComment($id: ID!) {
-  getComment(id: $id) {
-    id
-    post {
-      id
-      title
-      createdAt
-      updatedAt
-      blogPostsId
-      __typename
-    }
-    content
-    createdAt
-    updatedAt
-    postCommentsId
     __typename
   }
 }
 ` as GeneratedQuery<
-  APITypes.GetCommentQueryVariables,
-  APITypes.GetCommentQuery
+  APITypes.ListChainsQueryVariables,
+  APITypes.ListChainsQuery
 >;
-export const listComments = /* GraphQL */ `query ListComments(
-  $filter: ModelCommentFilterInput
+export const chainsByRestaurantID = /* GraphQL */ `query ChainsByRestaurantID(
+  $restaurantID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelChainFilterInput
   $limit: Int
   $nextToken: String
 ) {
-  listComments(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  chainsByRestaurantID(
+    restaurantID: $restaurantID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
     items {
       id
-      content
+      name
+      branding_banner
+      branding_primary_color
+      restaurantID
       createdAt
       updatedAt
-      postCommentsId
       __typename
     }
     nextToken
@@ -122,6 +74,284 @@ export const listComments = /* GraphQL */ `query ListComments(
   }
 }
 ` as GeneratedQuery<
-  APITypes.ListCommentsQueryVariables,
-  APITypes.ListCommentsQuery
+  APITypes.ChainsByRestaurantIDQueryVariables,
+  APITypes.ChainsByRestaurantIDQuery
+>;
+export const getRestaurant = /* GraphQL */ `query GetRestaurant($id: ID!) {
+  getRestaurant(id: $id) {
+    id
+    name
+    subdomain
+    branding_banner
+    branding_color
+    chain_id
+    Chains {
+      nextToken
+      __typename
+    }
+    categories {
+      nextToken
+      __typename
+    }
+    orders {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetRestaurantQueryVariables,
+  APITypes.GetRestaurantQuery
+>;
+export const listRestaurants = /* GraphQL */ `query ListRestaurants(
+  $filter: ModelRestaurantFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listRestaurants(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      name
+      subdomain
+      branding_banner
+      branding_color
+      chain_id
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListRestaurantsQueryVariables,
+  APITypes.ListRestaurantsQuery
+>;
+export const getCategory = /* GraphQL */ `query GetCategory($id: ID!) {
+  getCategory(id: $id) {
+    id
+    name
+    restaurantID
+    items {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    restaurantCategoriesId
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetCategoryQueryVariables,
+  APITypes.GetCategoryQuery
+>;
+export const listCategories = /* GraphQL */ `query ListCategories(
+  $filter: ModelCategoryFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listCategories(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      name
+      restaurantID
+      createdAt
+      updatedAt
+      restaurantCategoriesId
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListCategoriesQueryVariables,
+  APITypes.ListCategoriesQuery
+>;
+export const categoriesByRestaurantID = /* GraphQL */ `query CategoriesByRestaurantID(
+  $restaurantID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelCategoryFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  categoriesByRestaurantID(
+    restaurantID: $restaurantID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      name
+      restaurantID
+      createdAt
+      updatedAt
+      restaurantCategoriesId
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.CategoriesByRestaurantIDQueryVariables,
+  APITypes.CategoriesByRestaurantIDQuery
+>;
+export const getMenuItem = /* GraphQL */ `query GetMenuItem($id: ID!) {
+  getMenuItem(id: $id) {
+    id
+    name
+    description
+    price
+    categoryID
+    createdAt
+    updatedAt
+    categoryItemsId
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetMenuItemQueryVariables,
+  APITypes.GetMenuItemQuery
+>;
+export const listMenuItems = /* GraphQL */ `query ListMenuItems(
+  $filter: ModelMenuItemFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listMenuItems(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      name
+      description
+      price
+      categoryID
+      createdAt
+      updatedAt
+      categoryItemsId
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListMenuItemsQueryVariables,
+  APITypes.ListMenuItemsQuery
+>;
+export const menuItemsByCategoryID = /* GraphQL */ `query MenuItemsByCategoryID(
+  $categoryID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelMenuItemFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  menuItemsByCategoryID(
+    categoryID: $categoryID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      name
+      description
+      price
+      categoryID
+      createdAt
+      updatedAt
+      categoryItemsId
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.MenuItemsByCategoryIDQueryVariables,
+  APITypes.MenuItemsByCategoryIDQuery
+>;
+export const getOrder = /* GraphQL */ `query GetOrder($id: ID!) {
+  getOrder(id: $id) {
+    id
+    items {
+      menuItemId
+      quantity
+      price
+      name
+      __typename
+    }
+    total
+    status
+    restaurantID
+    createdAt
+    updatedAt
+    restaurantOrdersId
+    __typename
+  }
+}
+` as GeneratedQuery<APITypes.GetOrderQueryVariables, APITypes.GetOrderQuery>;
+export const listOrders = /* GraphQL */ `query ListOrders(
+  $filter: ModelOrderFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listOrders(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      total
+      status
+      restaurantID
+      createdAt
+      updatedAt
+      restaurantOrdersId
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListOrdersQueryVariables,
+  APITypes.ListOrdersQuery
+>;
+export const ordersByRestaurantID = /* GraphQL */ `query OrdersByRestaurantID(
+  $restaurantID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelOrderFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  ordersByRestaurantID(
+    restaurantID: $restaurantID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      total
+      status
+      restaurantID
+      createdAt
+      updatedAt
+      restaurantOrdersId
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.OrdersByRestaurantIDQueryVariables,
+  APITypes.OrdersByRestaurantIDQuery
 >;

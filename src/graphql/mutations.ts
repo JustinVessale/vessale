@@ -8,54 +8,83 @@ type GeneratedMutation<InputType, OutputType> = string & {
   __generatedMutationOutput: OutputType;
 };
 
-export const createBlog = /* GraphQL */ `mutation CreateBlog(
-  $input: CreateBlogInput!
-  $condition: ModelBlogConditionInput
+export const createChain = /* GraphQL */ `mutation CreateChain(
+  $input: CreateChainInput!
+  $condition: ModelChainConditionInput
 ) {
-  createBlog(input: $input, condition: $condition) {
+  createChain(input: $input, condition: $condition) {
     id
     name
-    posts {
-      nextToken
-      __typename
-    }
+    branding_banner
+    branding_primary_color
+    restaurantID
     createdAt
     updatedAt
     __typename
   }
 }
 ` as GeneratedMutation<
-  APITypes.CreateBlogMutationVariables,
-  APITypes.CreateBlogMutation
+  APITypes.CreateChainMutationVariables,
+  APITypes.CreateChainMutation
 >;
-export const updateBlog = /* GraphQL */ `mutation UpdateBlog(
-  $input: UpdateBlogInput!
-  $condition: ModelBlogConditionInput
+export const updateChain = /* GraphQL */ `mutation UpdateChain(
+  $input: UpdateChainInput!
+  $condition: ModelChainConditionInput
 ) {
-  updateBlog(input: $input, condition: $condition) {
+  updateChain(input: $input, condition: $condition) {
     id
     name
-    posts {
-      nextToken
-      __typename
-    }
+    branding_banner
+    branding_primary_color
+    restaurantID
     createdAt
     updatedAt
     __typename
   }
 }
 ` as GeneratedMutation<
-  APITypes.UpdateBlogMutationVariables,
-  APITypes.UpdateBlogMutation
+  APITypes.UpdateChainMutationVariables,
+  APITypes.UpdateChainMutation
 >;
-export const deleteBlog = /* GraphQL */ `mutation DeleteBlog(
-  $input: DeleteBlogInput!
-  $condition: ModelBlogConditionInput
+export const deleteChain = /* GraphQL */ `mutation DeleteChain(
+  $input: DeleteChainInput!
+  $condition: ModelChainConditionInput
 ) {
-  deleteBlog(input: $input, condition: $condition) {
+  deleteChain(input: $input, condition: $condition) {
     id
     name
-    posts {
+    branding_banner
+    branding_primary_color
+    restaurantID
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteChainMutationVariables,
+  APITypes.DeleteChainMutation
+>;
+export const createRestaurant = /* GraphQL */ `mutation CreateRestaurant(
+  $input: CreateRestaurantInput!
+  $condition: ModelRestaurantConditionInput
+) {
+  createRestaurant(input: $input, condition: $condition) {
+    id
+    name
+    subdomain
+    branding_banner
+    branding_color
+    chain_id
+    Chains {
+      nextToken
+      __typename
+    }
+    categories {
+      nextToken
+      __typename
+    }
+    orders {
       nextToken
       __typename
     }
@@ -65,165 +94,274 @@ export const deleteBlog = /* GraphQL */ `mutation DeleteBlog(
   }
 }
 ` as GeneratedMutation<
-  APITypes.DeleteBlogMutationVariables,
-  APITypes.DeleteBlogMutation
+  APITypes.CreateRestaurantMutationVariables,
+  APITypes.CreateRestaurantMutation
 >;
-export const createPost = /* GraphQL */ `mutation CreatePost(
-  $input: CreatePostInput!
-  $condition: ModelPostConditionInput
+export const updateRestaurant = /* GraphQL */ `mutation UpdateRestaurant(
+  $input: UpdateRestaurantInput!
+  $condition: ModelRestaurantConditionInput
 ) {
-  createPost(input: $input, condition: $condition) {
+  updateRestaurant(input: $input, condition: $condition) {
     id
-    title
-    blog {
-      id
+    name
+    subdomain
+    branding_banner
+    branding_color
+    chain_id
+    Chains {
+      nextToken
+      __typename
+    }
+    categories {
+      nextToken
+      __typename
+    }
+    orders {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateRestaurantMutationVariables,
+  APITypes.UpdateRestaurantMutation
+>;
+export const deleteRestaurant = /* GraphQL */ `mutation DeleteRestaurant(
+  $input: DeleteRestaurantInput!
+  $condition: ModelRestaurantConditionInput
+) {
+  deleteRestaurant(input: $input, condition: $condition) {
+    id
+    name
+    subdomain
+    branding_banner
+    branding_color
+    chain_id
+    Chains {
+      nextToken
+      __typename
+    }
+    categories {
+      nextToken
+      __typename
+    }
+    orders {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteRestaurantMutationVariables,
+  APITypes.DeleteRestaurantMutation
+>;
+export const createCategory = /* GraphQL */ `mutation CreateCategory(
+  $input: CreateCategoryInput!
+  $condition: ModelCategoryConditionInput
+) {
+  createCategory(input: $input, condition: $condition) {
+    id
+    name
+    restaurantID
+    items {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    restaurantCategoriesId
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateCategoryMutationVariables,
+  APITypes.CreateCategoryMutation
+>;
+export const updateCategory = /* GraphQL */ `mutation UpdateCategory(
+  $input: UpdateCategoryInput!
+  $condition: ModelCategoryConditionInput
+) {
+  updateCategory(input: $input, condition: $condition) {
+    id
+    name
+    restaurantID
+    items {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    restaurantCategoriesId
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateCategoryMutationVariables,
+  APITypes.UpdateCategoryMutation
+>;
+export const deleteCategory = /* GraphQL */ `mutation DeleteCategory(
+  $input: DeleteCategoryInput!
+  $condition: ModelCategoryConditionInput
+) {
+  deleteCategory(input: $input, condition: $condition) {
+    id
+    name
+    restaurantID
+    items {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    restaurantCategoriesId
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteCategoryMutationVariables,
+  APITypes.DeleteCategoryMutation
+>;
+export const createMenuItem = /* GraphQL */ `mutation CreateMenuItem(
+  $input: CreateMenuItemInput!
+  $condition: ModelMenuItemConditionInput
+) {
+  createMenuItem(input: $input, condition: $condition) {
+    id
+    name
+    description
+    price
+    categoryID
+    createdAt
+    updatedAt
+    categoryItemsId
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateMenuItemMutationVariables,
+  APITypes.CreateMenuItemMutation
+>;
+export const updateMenuItem = /* GraphQL */ `mutation UpdateMenuItem(
+  $input: UpdateMenuItemInput!
+  $condition: ModelMenuItemConditionInput
+) {
+  updateMenuItem(input: $input, condition: $condition) {
+    id
+    name
+    description
+    price
+    categoryID
+    createdAt
+    updatedAt
+    categoryItemsId
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateMenuItemMutationVariables,
+  APITypes.UpdateMenuItemMutation
+>;
+export const deleteMenuItem = /* GraphQL */ `mutation DeleteMenuItem(
+  $input: DeleteMenuItemInput!
+  $condition: ModelMenuItemConditionInput
+) {
+  deleteMenuItem(input: $input, condition: $condition) {
+    id
+    name
+    description
+    price
+    categoryID
+    createdAt
+    updatedAt
+    categoryItemsId
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteMenuItemMutationVariables,
+  APITypes.DeleteMenuItemMutation
+>;
+export const createOrder = /* GraphQL */ `mutation CreateOrder(
+  $input: CreateOrderInput!
+  $condition: ModelOrderConditionInput
+) {
+  createOrder(input: $input, condition: $condition) {
+    id
+    items {
+      menuItemId
+      quantity
+      price
       name
-      createdAt
-      updatedAt
       __typename
     }
-    comments {
-      nextToken
-      __typename
-    }
+    total
+    status
+    restaurantID
     createdAt
     updatedAt
-    blogPostsId
+    restaurantOrdersId
     __typename
   }
 }
 ` as GeneratedMutation<
-  APITypes.CreatePostMutationVariables,
-  APITypes.CreatePostMutation
+  APITypes.CreateOrderMutationVariables,
+  APITypes.CreateOrderMutation
 >;
-export const updatePost = /* GraphQL */ `mutation UpdatePost(
-  $input: UpdatePostInput!
-  $condition: ModelPostConditionInput
+export const updateOrder = /* GraphQL */ `mutation UpdateOrder(
+  $input: UpdateOrderInput!
+  $condition: ModelOrderConditionInput
 ) {
-  updatePost(input: $input, condition: $condition) {
+  updateOrder(input: $input, condition: $condition) {
     id
-    title
-    blog {
-      id
+    items {
+      menuItemId
+      quantity
+      price
       name
-      createdAt
-      updatedAt
       __typename
     }
-    comments {
-      nextToken
-      __typename
-    }
+    total
+    status
+    restaurantID
     createdAt
     updatedAt
-    blogPostsId
+    restaurantOrdersId
     __typename
   }
 }
 ` as GeneratedMutation<
-  APITypes.UpdatePostMutationVariables,
-  APITypes.UpdatePostMutation
+  APITypes.UpdateOrderMutationVariables,
+  APITypes.UpdateOrderMutation
 >;
-export const deletePost = /* GraphQL */ `mutation DeletePost(
-  $input: DeletePostInput!
-  $condition: ModelPostConditionInput
+export const deleteOrder = /* GraphQL */ `mutation DeleteOrder(
+  $input: DeleteOrderInput!
+  $condition: ModelOrderConditionInput
 ) {
-  deletePost(input: $input, condition: $condition) {
+  deleteOrder(input: $input, condition: $condition) {
     id
-    title
-    blog {
-      id
+    items {
+      menuItemId
+      quantity
+      price
       name
-      createdAt
-      updatedAt
       __typename
     }
-    comments {
-      nextToken
-      __typename
-    }
+    total
+    status
+    restaurantID
     createdAt
     updatedAt
-    blogPostsId
+    restaurantOrdersId
     __typename
   }
 }
 ` as GeneratedMutation<
-  APITypes.DeletePostMutationVariables,
-  APITypes.DeletePostMutation
->;
-export const createComment = /* GraphQL */ `mutation CreateComment(
-  $input: CreateCommentInput!
-  $condition: ModelCommentConditionInput
-) {
-  createComment(input: $input, condition: $condition) {
-    id
-    post {
-      id
-      title
-      createdAt
-      updatedAt
-      blogPostsId
-      __typename
-    }
-    content
-    createdAt
-    updatedAt
-    postCommentsId
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.CreateCommentMutationVariables,
-  APITypes.CreateCommentMutation
->;
-export const updateComment = /* GraphQL */ `mutation UpdateComment(
-  $input: UpdateCommentInput!
-  $condition: ModelCommentConditionInput
-) {
-  updateComment(input: $input, condition: $condition) {
-    id
-    post {
-      id
-      title
-      createdAt
-      updatedAt
-      blogPostsId
-      __typename
-    }
-    content
-    createdAt
-    updatedAt
-    postCommentsId
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.UpdateCommentMutationVariables,
-  APITypes.UpdateCommentMutation
->;
-export const deleteComment = /* GraphQL */ `mutation DeleteComment(
-  $input: DeleteCommentInput!
-  $condition: ModelCommentConditionInput
-) {
-  deleteComment(input: $input, condition: $condition) {
-    id
-    post {
-      id
-      title
-      createdAt
-      updatedAt
-      blogPostsId
-      __typename
-    }
-    content
-    createdAt
-    updatedAt
-    postCommentsId
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.DeleteCommentMutationVariables,
-  APITypes.DeleteCommentMutation
+  APITypes.DeleteOrderMutationVariables,
+  APITypes.DeleteOrderMutation
 >;
