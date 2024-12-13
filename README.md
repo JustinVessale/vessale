@@ -46,9 +46,3 @@ A dynamic web application for restaurant online ordering built with React, TypeS
 - AWS Account
 - Amplify CLI
 
-### Installation
-
-1. Clone the repository
-```bash
-git clone [your-repo-url]
-cd [your-repo-name]
