@@ -1,14 +1,9 @@
 import { useState, useEffect } from 'react';
 import { generateClient, type GraphQLResult } from 'aws-amplify/api';
 import { GraphQLError } from 'graphql';
-import { GET_RESTAURANT_BY_SUBDOMAIN } from '../graphql/queries';
-import { Restaurant } from '../API';
+import { listRestaurants } from '../graphql/queries';
+import { Restaurant, ListRestaurantsQuery } from '../API';
 
-type GetRestaurantQuery = {
- listRestaurants: {
-   items: Restaurant[];
- }
-}
 
 export function useCurrentRestaurant() {
  const client = generateClient();
@@ -24,12 +19,16 @@ export function useCurrentRestaurant() {
     const subdomain = "dev-restaurant"
 
      try {
-       const response = await client.graphql<GetRestaurantQuery>({
-         query: GET_RESTAURANT_BY_SUBDOMAIN,
-         variables: { subdomain }
-       }) as GraphQLResult<GetRestaurantQuery>;;
+      const response = await client.graphql<ListRestaurantsQuery>({
+        query: listRestaurants,
+        variables: {
+          filter: { subdomain: { eq: subdomain } }
+        }
+      }) as GraphQLResult<ListRestaurantsQuery>;
        
-       const [restaurantData] = response.data?.listRestaurants.items || [];
+      console.log('API Response:', response);
+
+       const restaurantData = response.data?.listRestaurants?.items[0];
        
        if (!restaurantData) {
          throw new Error(`No restaurant found for subdomain: ${subdomain}`);
