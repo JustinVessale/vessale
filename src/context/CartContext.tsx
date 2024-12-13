@@ -1,6 +1,6 @@
 // src/context/CartContext.tsx
 import React, { createContext, useContext, useReducer } from 'react';
-import type { MenuItem } from '../models';
+import type { MenuItem } from '../API';
 
 interface CartItem extends MenuItem {
   quantity: number;
