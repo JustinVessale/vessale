@@ -1,5 +1,19 @@
 {
   "api": {
+    "paymentAPI": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "createPaymentIntent"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    },
     "vessale": {
       "dependsOn": [],
       "output": {
@@ -20,6 +34,31 @@
       },
       "providerPlugin": "awscloudformation",
       "service": "AppSync"
+    }
+  },
+  "function": {
+    "createPaymentIntent": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_createPaymentIntent_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "createPaymentIntent"
+        }
+      ]
+    },
+    "AMPLIFY_function_createPaymentIntent_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "createPaymentIntent"
+        }
+      ]
     }
   }
 }

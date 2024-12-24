@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/create-payment-intent": {
+      "name": "/create-payment-intent",
+      "lambdaFunction": "createPaymentIntent",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}

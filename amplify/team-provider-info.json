@@ -14,6 +14,12 @@
     "categories": {
       "api": {
         "vessale": {}
+      },
+      "function": {
+        "createPaymentIntent": {
+          "deploymentBucketName": "amplify-vessale-dev-16db3-deployment",
+          "s3Key": "amplify-builds/createPaymentIntent-78524c654f7a4f573231-build.zip"
+        }
       }
     }
   }
