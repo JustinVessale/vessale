@@ -1,0 +1,9 @@
+{
+  "name": "createpaymentintent",
+  "version": "2.0.0",
+  "description": "Lambda function for Stripe payment intent creation",
+  "main": "index.js",
+  "dependencies": {
+    "stripe": "^13.0.0"
+  }
+}
