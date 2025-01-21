@@ -1,9 +1,16 @@
-// src/context/CartContext.tsx
 import React, { createContext, useContext, useReducer } from 'react';
-import type { MenuItem } from '../models';
+import type { Schema } from 'amplify/data/resource';
+import type { SelectionSet } from 'aws-amplify/data';
 
-interface CartItem extends MenuItem {
+// Define the MenuItem type based on the GraphQL selection set
+type MenuItem = SelectionSet<
+  Schema['MenuItem']['type'],
+  ['id', 'name', 'description', 'price', 'categoryID']
+>;
+
+interface CartItem extends Omit<MenuItem, 'price'> {
   quantity: number;
+  price: number; // Ensure price is always number type
 }
 
 interface CartState {
@@ -26,6 +33,9 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
   switch (action.type) {
     case 'ADD_ITEM': {
       const existingItem = state.items.find(item => item.id === action.payload.id);
+      const itemPrice = typeof action.payload.price === 'string' 
+        ? parseFloat(action.payload.price) 
+        : action.payload.price;
       
       if (existingItem) {
         return {
@@ -35,14 +45,18 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
               ? { ...item, quantity: item.quantity + 1 }
               : item
           ),
-          total: state.total + action.payload.price
+          total: state.total + itemPrice
         };
       }
 
       return {
         ...state,
-        items: [...state.items, { ...action.payload, quantity: 1 }],
-        total: state.total + action.payload.price
+        items: [...state.items, { 
+          ...action.payload, 
+          quantity: 1,
+          price: itemPrice // Ensure price is stored as number
+        }],
+        total: state.total + itemPrice
       };
     }
 
