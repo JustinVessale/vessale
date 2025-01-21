@@ -162,7 +162,7 @@ export const schema = {
                     "association": {
                         "connectionType": "HAS_MANY",
                         "associatedWith": [
-                            "restaurant"
+                            "restaurantID"
                         ]
                     }
                 },
@@ -293,13 +293,6 @@ export const schema = {
                     "attributes": [],
                     "isReadOnly": true
                 },
-                "restaurantCategoriesId": {
-                    "name": "restaurantCategoriesId",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": false,
-                    "attributes": []
-                }
             },
             "syncable": true,
             "pluralName": "Categories",
