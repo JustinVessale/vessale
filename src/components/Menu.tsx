@@ -1,9 +1,16 @@
 import React from 'react';
-import { MenuItem } from '../models';
+import type { Schema } from 'amplify/data/resource';
+import type { SelectionSet } from 'aws-amplify/data';
 import { useCart } from '../context/CartContext';
 import { useToast } from "@/components/ui/use-toast";
 import { useCurrentRestaurant } from '../hooks/useCurrentRestaurant';
 import { useMenuData } from '../hooks/useMenuData';
+
+// Define the MenuItem type based on the GraphQL selection set
+type MenuItem = SelectionSet<
+  Schema['MenuItem']['type'],
+  ['id', 'name', 'description', 'price', 'categoryID']
+>;
 
 const Menu: React.FC = () => {
   const [selectedItem, setSelectedItem] = React.useState<MenuItem | null>(null);
@@ -46,10 +53,10 @@ const Menu: React.FC = () => {
       {/* Menu Sections */}
       <div className="space-y-12">
         {categories.map((category) => (
-          <section key={category.id} id={category.id}>
+          <section key={category.id ?? ''} id={category.id ?? ''}>
             <h2 className="text-2xl font-bold mb-6">{category.name}</h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {category.items.map((item: MenuItem) => (
+              {category.items.map((item) => (
                 <div
                   key={item.id}
                   className="border rounded-lg p-4 hover:shadow-lg transition-shadow cursor-pointer"
@@ -60,7 +67,9 @@ const Menu: React.FC = () => {
                       <h3 className="font-semibold">{item.name}</h3>
                       <p className="text-gray-600 text-sm mt-1">{item.description}</p>
                     </div>
-                    <span className="text-lg font-medium">${item.price.toFixed(2)}</span>
+                    <span className="text-lg font-medium">
+                      ${(typeof item.price === 'number' ? item.price : parseFloat(item.price)).toFixed(2)}
+                    </span>
                   </div>
                   <button
                     className="mt-4 w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition-colors"
@@ -89,7 +98,9 @@ const Menu: React.FC = () => {
             >
               <h3 className="text-xl font-semibold mb-2">{selectedItem.name}</h3>
               <p className="text-gray-600 mb-4">{selectedItem.description}</p>
-              <p className="text-xl font-medium mb-4">${selectedItem.price.toFixed(2)}</p>
+              <p className="text-xl font-medium mb-4">
+                ${(typeof selectedItem.price === 'number' ? selectedItem.price : parseFloat(selectedItem.price)).toFixed(2)}
+              </p>
               <div className="flex justify-end space-x-4">
                 <button
                   className="px-4 py-2 text-gray-600 hover:text-gray-900"

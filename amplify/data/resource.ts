@@ -1,19 +1,45 @@
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 
-/*== STEP 1 ===============================================================
-The section below creates a Todo database table with a "content" field. Try
-adding a new "isDone" field as a boolean. The authorization rule below
-specifies that any user authenticated via an API key can "create", "read",
-"update", and "delete" any "Todo" records.
-=========================================================================*/
 const schema = a.schema({
-  Todo: a
+  Restaurant: a
     .model({
-      content: a.string(),
+      id: a.id(),
+      name: a.string(),
+      subdomain: a.string(),
+      branding_banner: a.string(),
+      branding_color: a.string(), 
+      chain_id: a.id(),
+      categories: a.hasMany("Category", 'id'),
+      createdAt: a.datetime(),
+      updatedAt: a.datetime()
     })
-    .authorization((allow) => [allow.publicApiKey()]),
-});
-
+    .authorization(allow => [allow.publicApiKey()]),
+ 
+  Category: a
+    .model({
+      id: a.id(),
+      name: a.string().required(),
+      restaurantID: a.string().required(),
+      items: a.hasMany('MenuItem', 'id'),
+      createdAt: a.datetime(),
+      updatedAt: a.datetime(),
+      restaurantCategoriesId: a.string()
+    })
+    .authorization(allow => [allow.publicApiKey()]),
+ 
+  MenuItem: a
+    .model({
+      id: a.id(),
+      name: a.string().required(),
+      description: a.string().required(),
+      price: a.float().required(),
+      categoryID: a.string().required(), 
+      createdAt: a.datetime(),
+      updatedAt: a.datetime(),
+      categoryItemsId: a.string()
+    })
+    .authorization(allow => [allow.publicApiKey()])
+ });
 export type Schema = ClientSchema<typeof schema>;
 
 export const data = defineData({
