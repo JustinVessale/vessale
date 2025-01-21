@@ -249,7 +249,7 @@ export const schema = {
                     "attributes": []
                 },
                 "restaurant": {  
-                     "name": "restaurant",
+                    "name": "restaurant",
                     "isArray": false,
                     "type": {
                         "model": "Restaurant"
@@ -292,7 +292,7 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isReadOnly": true
-                },
+                }
             },
             "syncable": true,
             "pluralName": "Categories",
@@ -307,15 +307,6 @@ export const schema = {
                         "name": "byRestaurant",
                         "fields": [
                             "restaurantID"
-                        ]
-                    }
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "gsi-Restaurant.categories",
-                        "fields": [
-                            "restaurantCategoriesId"
                         ]
                     }
                 },
