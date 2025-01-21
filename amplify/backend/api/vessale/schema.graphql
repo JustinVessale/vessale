@@ -4,6 +4,7 @@ type Chain @model @auth(rules: [{allow: public}]) {
   branding_banner: String
   branding_primary_color: String
   restaurantID: ID! @index(name: "byRestaurant")
+  restaurant: Restaurant! @belongsTo(fields: ["restaurantID"])
 }
 
 type Restaurant @model @auth(rules: [{allow: public}]) {
@@ -14,15 +15,16 @@ type Restaurant @model @auth(rules: [{allow: public}]) {
   branding_color: String
   chain_id: ID
   Chains: [Chain] @hasMany(indexName: "byRestaurant", fields: ["id"])
-  categories: [Category] @hasMany
-  orders: [Order] @hasMany
+  categories: [Category] @hasMany(indexName: "byRestaurant", fields: ["id"])
+  orders: [Order] @hasMany(indexName: "byRestaurant", fields: ["id"])
 }
 
 type Category @model @auth(rules: [{allow: public}]) {
   id: ID!
   name: String!
   restaurantID: ID! @index(name: "byRestaurant")
-  items: [MenuItem] @hasMany
+  restaurant: Restaurant! @belongsTo(fields: ["restaurantID"])
+  items: [MenuItem] @hasMany(indexName: "byCategory", fields: ["id"])
 }
 
 type MenuItem @model @auth(rules: [{allow: public}]) {
