@@ -15,6 +15,17 @@ export const getChain = /* GraphQL */ `query GetChain($id: ID!) {
     branding_banner
     branding_primary_color
     restaurantID
+    restaurant {
+      id
+      name
+      subdomain
+      branding_banner
+      branding_color
+      chain_id
+      createdAt
+      updatedAt
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -136,13 +147,23 @@ export const getCategory = /* GraphQL */ `query GetCategory($id: ID!) {
     id
     name
     restaurantID
+    restaurant {
+      id
+      name
+      subdomain
+      branding_banner
+      branding_color
+      chain_id
+      createdAt
+      updatedAt
+      __typename
+    }
     items {
       nextToken
       __typename
     }
     createdAt
     updatedAt
-    restaurantCategoriesId
     __typename
   }
 }
@@ -162,7 +183,6 @@ export const listCategories = /* GraphQL */ `query ListCategories(
       restaurantID
       createdAt
       updatedAt
-      restaurantCategoriesId
       __typename
     }
     nextToken
@@ -193,7 +213,6 @@ export const categoriesByRestaurantID = /* GraphQL */ `query CategoriesByRestaur
       restaurantID
       createdAt
       updatedAt
-      restaurantCategoriesId
       __typename
     }
     nextToken
@@ -213,7 +232,6 @@ export const getMenuItem = /* GraphQL */ `query GetMenuItem($id: ID!) {
     categoryID
     createdAt
     updatedAt
-    categoryItemsId
     __typename
   }
 }
@@ -235,7 +253,6 @@ export const listMenuItems = /* GraphQL */ `query ListMenuItems(
       categoryID
       createdAt
       updatedAt
-      categoryItemsId
       __typename
     }
     nextToken
@@ -268,7 +285,6 @@ export const menuItemsByCategoryID = /* GraphQL */ `query MenuItemsByCategoryID(
       categoryID
       createdAt
       updatedAt
-      categoryItemsId
       __typename
     }
     nextToken
@@ -294,7 +310,6 @@ export const getOrder = /* GraphQL */ `query GetOrder($id: ID!) {
     restaurantID
     createdAt
     updatedAt
-    restaurantOrdersId
     __typename
   }
 }
@@ -312,7 +327,6 @@ export const listOrders = /* GraphQL */ `query ListOrders(
       restaurantID
       createdAt
       updatedAt
-      restaurantOrdersId
       __typename
     }
     nextToken
@@ -344,7 +358,6 @@ export const ordersByRestaurantID = /* GraphQL */ `query OrdersByRestaurantID(
       restaurantID
       createdAt
       updatedAt
-      restaurantOrdersId
       __typename
     }
     nextToken

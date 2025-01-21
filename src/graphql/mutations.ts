@@ -18,6 +18,17 @@ export const createChain = /* GraphQL */ `mutation CreateChain(
     branding_banner
     branding_primary_color
     restaurantID
+    restaurant {
+      id
+      name
+      subdomain
+      branding_banner
+      branding_color
+      chain_id
+      createdAt
+      updatedAt
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -37,6 +48,17 @@ export const updateChain = /* GraphQL */ `mutation UpdateChain(
     branding_banner
     branding_primary_color
     restaurantID
+    restaurant {
+      id
+      name
+      subdomain
+      branding_banner
+      branding_color
+      chain_id
+      createdAt
+      updatedAt
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -56,6 +78,17 @@ export const deleteChain = /* GraphQL */ `mutation DeleteChain(
     branding_banner
     branding_primary_color
     restaurantID
+    restaurant {
+      id
+      name
+      subdomain
+      branding_banner
+      branding_color
+      chain_id
+      createdAt
+      updatedAt
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -169,13 +202,23 @@ export const createCategory = /* GraphQL */ `mutation CreateCategory(
     id
     name
     restaurantID
+    restaurant {
+      id
+      name
+      subdomain
+      branding_banner
+      branding_color
+      chain_id
+      createdAt
+      updatedAt
+      __typename
+    }
     items {
       nextToken
       __typename
     }
     createdAt
     updatedAt
-    restaurantCategoriesId
     __typename
   }
 }
@@ -191,13 +234,23 @@ export const updateCategory = /* GraphQL */ `mutation UpdateCategory(
     id
     name
     restaurantID
+    restaurant {
+      id
+      name
+      subdomain
+      branding_banner
+      branding_color
+      chain_id
+      createdAt
+      updatedAt
+      __typename
+    }
     items {
       nextToken
       __typename
     }
     createdAt
     updatedAt
-    restaurantCategoriesId
     __typename
   }
 }
@@ -213,13 +266,23 @@ export const deleteCategory = /* GraphQL */ `mutation DeleteCategory(
     id
     name
     restaurantID
+    restaurant {
+      id
+      name
+      subdomain
+      branding_banner
+      branding_color
+      chain_id
+      createdAt
+      updatedAt
+      __typename
+    }
     items {
       nextToken
       __typename
     }
     createdAt
     updatedAt
-    restaurantCategoriesId
     __typename
   }
 }
@@ -239,7 +302,6 @@ export const createMenuItem = /* GraphQL */ `mutation CreateMenuItem(
     categoryID
     createdAt
     updatedAt
-    categoryItemsId
     __typename
   }
 }
@@ -259,7 +321,6 @@ export const updateMenuItem = /* GraphQL */ `mutation UpdateMenuItem(
     categoryID
     createdAt
     updatedAt
-    categoryItemsId
     __typename
   }
 }
@@ -279,7 +340,6 @@ export const deleteMenuItem = /* GraphQL */ `mutation DeleteMenuItem(
     categoryID
     createdAt
     updatedAt
-    categoryItemsId
     __typename
   }
 }
@@ -305,7 +365,6 @@ export const createOrder = /* GraphQL */ `mutation CreateOrder(
     restaurantID
     createdAt
     updatedAt
-    restaurantOrdersId
     __typename
   }
 }
@@ -331,7 +390,6 @@ export const updateOrder = /* GraphQL */ `mutation UpdateOrder(
     restaurantID
     createdAt
     updatedAt
-    restaurantOrdersId
     __typename
   }
 }
@@ -357,7 +415,6 @@ export const deleteOrder = /* GraphQL */ `mutation DeleteOrder(
     restaurantID
     createdAt
     updatedAt
-    restaurantOrdersId
     __typename
   }
 }

@@ -15,6 +15,17 @@ export const onCreateChain = /* GraphQL */ `subscription OnCreateChain($filter: 
     branding_banner
     branding_primary_color
     restaurantID
+    restaurant {
+      id
+      name
+      subdomain
+      branding_banner
+      branding_color
+      chain_id
+      createdAt
+      updatedAt
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -31,6 +42,17 @@ export const onUpdateChain = /* GraphQL */ `subscription OnUpdateChain($filter: 
     branding_banner
     branding_primary_color
     restaurantID
+    restaurant {
+      id
+      name
+      subdomain
+      branding_banner
+      branding_color
+      chain_id
+      createdAt
+      updatedAt
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -47,6 +69,17 @@ export const onDeleteChain = /* GraphQL */ `subscription OnDeleteChain($filter: 
     branding_banner
     branding_primary_color
     restaurantID
+    restaurant {
+      id
+      name
+      subdomain
+      branding_banner
+      branding_color
+      chain_id
+      createdAt
+      updatedAt
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -154,13 +187,23 @@ export const onCreateCategory = /* GraphQL */ `subscription OnCreateCategory($fi
     id
     name
     restaurantID
+    restaurant {
+      id
+      name
+      subdomain
+      branding_banner
+      branding_color
+      chain_id
+      createdAt
+      updatedAt
+      __typename
+    }
     items {
       nextToken
       __typename
     }
     createdAt
     updatedAt
-    restaurantCategoriesId
     __typename
   }
 }
@@ -173,13 +216,23 @@ export const onUpdateCategory = /* GraphQL */ `subscription OnUpdateCategory($fi
     id
     name
     restaurantID
+    restaurant {
+      id
+      name
+      subdomain
+      branding_banner
+      branding_color
+      chain_id
+      createdAt
+      updatedAt
+      __typename
+    }
     items {
       nextToken
       __typename
     }
     createdAt
     updatedAt
-    restaurantCategoriesId
     __typename
   }
 }
@@ -192,13 +245,23 @@ export const onDeleteCategory = /* GraphQL */ `subscription OnDeleteCategory($fi
     id
     name
     restaurantID
+    restaurant {
+      id
+      name
+      subdomain
+      branding_banner
+      branding_color
+      chain_id
+      createdAt
+      updatedAt
+      __typename
+    }
     items {
       nextToken
       __typename
     }
     createdAt
     updatedAt
-    restaurantCategoriesId
     __typename
   }
 }
@@ -215,7 +278,6 @@ export const onCreateMenuItem = /* GraphQL */ `subscription OnCreateMenuItem($fi
     categoryID
     createdAt
     updatedAt
-    categoryItemsId
     __typename
   }
 }
@@ -232,7 +294,6 @@ export const onUpdateMenuItem = /* GraphQL */ `subscription OnUpdateMenuItem($fi
     categoryID
     createdAt
     updatedAt
-    categoryItemsId
     __typename
   }
 }
@@ -249,7 +310,6 @@ export const onDeleteMenuItem = /* GraphQL */ `subscription OnDeleteMenuItem($fi
     categoryID
     createdAt
     updatedAt
-    categoryItemsId
     __typename
   }
 }
@@ -272,7 +332,6 @@ export const onCreateOrder = /* GraphQL */ `subscription OnCreateOrder($filter: 
     restaurantID
     createdAt
     updatedAt
-    restaurantOrdersId
     __typename
   }
 }
@@ -295,7 +354,6 @@ export const onUpdateOrder = /* GraphQL */ `subscription OnUpdateOrder($filter: 
     restaurantID
     createdAt
     updatedAt
-    restaurantOrdersId
     __typename
   }
 }
@@ -318,7 +376,6 @@ export const onDeleteOrder = /* GraphQL */ `subscription OnDeleteOrder($filter: 
     restaurantID
     createdAt
     updatedAt
-    restaurantOrdersId
     __typename
   }
 }

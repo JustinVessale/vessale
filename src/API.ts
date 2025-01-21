@@ -85,9 +85,98 @@ export type Chain = {
   branding_banner?: string | null,
   branding_primary_color?: string | null,
   restaurantID: string,
+  restaurant: Restaurant,
   createdAt: string,
   updatedAt: string,
 };
+
+export type Restaurant = {
+  __typename: "Restaurant",
+  id: string,
+  name?: string | null,
+  subdomain?: string | null,
+  branding_banner?: string | null,
+  branding_color?: string | null,
+  chain_id?: string | null,
+  Chains?: ModelChainConnection | null,
+  categories?: ModelCategoryConnection | null,
+  orders?: ModelOrderConnection | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type ModelChainConnection = {
+  __typename: "ModelChainConnection",
+  items:  Array<Chain | null >,
+  nextToken?: string | null,
+};
+
+export type ModelCategoryConnection = {
+  __typename: "ModelCategoryConnection",
+  items:  Array<Category | null >,
+  nextToken?: string | null,
+};
+
+export type Category = {
+  __typename: "Category",
+  id: string,
+  name: string,
+  restaurantID: string,
+  restaurant: Restaurant,
+  items?: ModelMenuItemConnection | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type ModelMenuItemConnection = {
+  __typename: "ModelMenuItemConnection",
+  items:  Array<MenuItem | null >,
+  nextToken?: string | null,
+};
+
+export type MenuItem = {
+  __typename: "MenuItem",
+  id: string,
+  name: string,
+  description: string,
+  price: number,
+  categoryID: string,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type ModelOrderConnection = {
+  __typename: "ModelOrderConnection",
+  items:  Array<Order | null >,
+  nextToken?: string | null,
+};
+
+export type Order = {
+  __typename: "Order",
+  id: string,
+  items:  Array<OrderItem | null >,
+  total: number,
+  status: OrderStatus,
+  restaurantID: string,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type OrderItem = {
+  __typename: "OrderItem",
+  menuItemId: string,
+  quantity: number,
+  price: number,
+  name: string,
+};
+
+export enum OrderStatus {
+  PENDING = "PENDING",
+  PROCESSING = "PROCESSING",
+  COMPLETED = "COMPLETED",
+  CANCELLED = "CANCELLED",
+}
+
 
 export type UpdateChainInput = {
   id: string,
@@ -123,96 +212,6 @@ export type ModelRestaurantConditionInput = {
   updatedAt?: ModelStringInput | null,
 };
 
-export type Restaurant = {
-  __typename: "Restaurant",
-  id: string,
-  name?: string | null,
-  subdomain?: string | null,
-  branding_banner?: string | null,
-  branding_color?: string | null,
-  chain_id?: string | null,
-  Chains?: ModelChainConnection | null,
-  categories?: ModelCategoryConnection | null,
-  orders?: ModelOrderConnection | null,
-  createdAt: string,
-  updatedAt: string,
-};
-
-export type ModelChainConnection = {
-  __typename: "ModelChainConnection",
-  items:  Array<Chain | null >,
-  nextToken?: string | null,
-};
-
-export type ModelCategoryConnection = {
-  __typename: "ModelCategoryConnection",
-  items:  Array<Category | null >,
-  nextToken?: string | null,
-};
-
-export type Category = {
-  __typename: "Category",
-  id: string,
-  name: string,
-  restaurantID: string,
-  items?: ModelMenuItemConnection | null,
-  createdAt: string,
-  updatedAt: string,
-  restaurantCategoriesId?: string | null,
-};
-
-export type ModelMenuItemConnection = {
-  __typename: "ModelMenuItemConnection",
-  items:  Array<MenuItem | null >,
-  nextToken?: string | null,
-};
-
-export type MenuItem = {
-  __typename: "MenuItem",
-  id: string,
-  name: string,
-  description: string,
-  price: number,
-  categoryID: string,
-  createdAt: string,
-  updatedAt: string,
-  categoryItemsId?: string | null,
-};
-
-export type ModelOrderConnection = {
-  __typename: "ModelOrderConnection",
-  items:  Array<Order | null >,
-  nextToken?: string | null,
-};
-
-export type Order = {
-  __typename: "Order",
-  id: string,
-  items:  Array<OrderItem | null >,
-  total: number,
-  status: OrderStatus,
-  restaurantID: string,
-  createdAt: string,
-  updatedAt: string,
-  restaurantOrdersId?: string | null,
-};
-
-export type OrderItem = {
-  __typename: "OrderItem",
-  menuItemId: string,
-  quantity: number,
-  price: number,
-  name: string,
-};
-
-export enum OrderStatus {
-  PENDING = "PENDING",
-  PROCESSING = "PROCESSING",
-  COMPLETED = "COMPLETED",
-  CANCELLED = "CANCELLED",
-}
-
-
 export type UpdateRestaurantInput = {
   id: string,
   name?: string | null,
@@ -230,7 +229,6 @@ export type CreateCategoryInput = {
   id?: string | null,
   name: string,
   restaurantID: string,
-  restaurantCategoriesId?: string | null,
 };
 
 export type ModelCategoryConditionInput = {
@@ -241,14 +239,12 @@ export type ModelCategoryConditionInput = {
   not?: ModelCategoryConditionInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
-  restaurantCategoriesId?: ModelIDInput | null,
 };
 
 export type UpdateCategoryInput = {
   id: string,
   name?: string | null,
   restaurantID?: string | null,
-  restaurantCategoriesId?: string | null,
 };
 
 export type DeleteCategoryInput = {
@@ -261,7 +257,6 @@ export type CreateMenuItemInput = {
   description: string,
   price: number,
   categoryID: string,
-  categoryItemsId?: string | null,
 };
 
 export type ModelMenuItemConditionInput = {
@@ -274,7 +269,6 @@ export type ModelMenuItemConditionInput = {
   not?: ModelMenuItemConditionInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
-  categoryItemsId?: ModelIDInput | null,
 };
 
 export type ModelFloatInput = {
@@ -295,7 +289,6 @@ export type UpdateMenuItemInput = {
   description?: string | null,
   price?: number | null,
   categoryID?: string | null,
-  categoryItemsId?: string | null,
 };
 
 export type DeleteMenuItemInput = {
@@ -309,7 +302,6 @@ export type CreateOrderInput = {
   status: OrderStatus,
   restaurantID: string,
   createdAt?: string | null,
-  restaurantOrdersId?: string | null,
 };
 
 export type OrderItemInput = {
@@ -328,7 +320,6 @@ export type ModelOrderConditionInput = {
   or?: Array< ModelOrderConditionInput | null > | null,
   not?: ModelOrderConditionInput | null,
   updatedAt?: ModelStringInput | null,
-  restaurantOrdersId?: ModelIDInput | null,
 };
 
 export type ModelOrderStatusInput = {
@@ -343,7 +334,6 @@ export type UpdateOrderInput = {
   status?: OrderStatus | null,
   restaurantID?: string | null,
   createdAt?: string | null,
-  restaurantOrdersId?: string | null,
 };
 
 export type DeleteOrderInput = {
@@ -398,7 +388,6 @@ export type ModelCategoryFilterInput = {
   and?: Array< ModelCategoryFilterInput | null > | null,
   or?: Array< ModelCategoryFilterInput | null > | null,
   not?: ModelCategoryFilterInput | null,
-  restaurantCategoriesId?: ModelIDInput | null,
 };
 
 export type ModelMenuItemFilterInput = {
@@ -412,7 +401,6 @@ export type ModelMenuItemFilterInput = {
   and?: Array< ModelMenuItemFilterInput | null > | null,
   or?: Array< ModelMenuItemFilterInput | null > | null,
   not?: ModelMenuItemFilterInput | null,
-  categoryItemsId?: ModelIDInput | null,
 };
 
 export type ModelOrderFilterInput = {
@@ -425,7 +413,6 @@ export type ModelOrderFilterInput = {
   and?: Array< ModelOrderFilterInput | null > | null,
   or?: Array< ModelOrderFilterInput | null > | null,
   not?: ModelOrderFilterInput | null,
-  restaurantOrdersId?: ModelIDInput | null,
 };
 
 export type ModelSubscriptionChainFilterInput = {
@@ -481,8 +468,6 @@ export type ModelSubscriptionRestaurantFilterInput = {
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionRestaurantFilterInput | null > | null,
   or?: Array< ModelSubscriptionRestaurantFilterInput | null > | null,
-  restaurantCategoriesId?: ModelSubscriptionIDInput | null,
-  restaurantOrdersId?: ModelSubscriptionIDInput | null,
 };
 
 export type ModelSubscriptionCategoryFilterInput = {
@@ -493,7 +478,6 @@ export type ModelSubscriptionCategoryFilterInput = {
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionCategoryFilterInput | null > | null,
   or?: Array< ModelSubscriptionCategoryFilterInput | null > | null,
-  categoryItemsId?: ModelSubscriptionIDInput | null,
 };
 
 export type ModelSubscriptionMenuItemFilterInput = {
@@ -544,6 +528,17 @@ export type CreateChainMutation = {
     branding_banner?: string | null,
     branding_primary_color?: string | null,
     restaurantID: string,
+    restaurant:  {
+      __typename: "Restaurant",
+      id: string,
+      name?: string | null,
+      subdomain?: string | null,
+      branding_banner?: string | null,
+      branding_color?: string | null,
+      chain_id?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    },
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -562,6 +557,17 @@ export type UpdateChainMutation = {
     branding_banner?: string | null,
     branding_primary_color?: string | null,
     restaurantID: string,
+    restaurant:  {
+      __typename: "Restaurant",
+      id: string,
+      name?: string | null,
+      subdomain?: string | null,
+      branding_banner?: string | null,
+      branding_color?: string | null,
+      chain_id?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    },
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -580,6 +586,17 @@ export type DeleteChainMutation = {
     branding_banner?: string | null,
     branding_primary_color?: string | null,
     restaurantID: string,
+    restaurant:  {
+      __typename: "Restaurant",
+      id: string,
+      name?: string | null,
+      subdomain?: string | null,
+      branding_banner?: string | null,
+      branding_color?: string | null,
+      chain_id?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    },
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -689,13 +706,23 @@ export type CreateCategoryMutation = {
     id: string,
     name: string,
     restaurantID: string,
+    restaurant:  {
+      __typename: "Restaurant",
+      id: string,
+      name?: string | null,
+      subdomain?: string | null,
+      branding_banner?: string | null,
+      branding_color?: string | null,
+      chain_id?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    },
     items?:  {
       __typename: "ModelMenuItemConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    restaurantCategoriesId?: string | null,
   } | null,
 };
 
@@ -710,13 +737,23 @@ export type UpdateCategoryMutation = {
     id: string,
     name: string,
     restaurantID: string,
+    restaurant:  {
+      __typename: "Restaurant",
+      id: string,
+      name?: string | null,
+      subdomain?: string | null,
+      branding_banner?: string | null,
+      branding_color?: string | null,
+      chain_id?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    },
     items?:  {
       __typename: "ModelMenuItemConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    restaurantCategoriesId?: string | null,
   } | null,
 };
 
@@ -731,13 +768,23 @@ export type DeleteCategoryMutation = {
     id: string,
     name: string,
     restaurantID: string,
+    restaurant:  {
+      __typename: "Restaurant",
+      id: string,
+      name?: string | null,
+      subdomain?: string | null,
+      branding_banner?: string | null,
+      branding_color?: string | null,
+      chain_id?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    },
     items?:  {
       __typename: "ModelMenuItemConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    restaurantCategoriesId?: string | null,
   } | null,
 };
 
@@ -756,7 +803,6 @@ export type CreateMenuItemMutation = {
     categoryID: string,
     createdAt: string,
     updatedAt: string,
-    categoryItemsId?: string | null,
   } | null,
 };
 
@@ -775,7 +821,6 @@ export type UpdateMenuItemMutation = {
     categoryID: string,
     createdAt: string,
     updatedAt: string,
-    categoryItemsId?: string | null,
   } | null,
 };
 
@@ -794,7 +839,6 @@ export type DeleteMenuItemMutation = {
     categoryID: string,
     createdAt: string,
     updatedAt: string,
-    categoryItemsId?: string | null,
   } | null,
 };
 
@@ -819,7 +863,6 @@ export type CreateOrderMutation = {
     restaurantID: string,
     createdAt: string,
     updatedAt: string,
-    restaurantOrdersId?: string | null,
   } | null,
 };
 
@@ -844,7 +887,6 @@ export type UpdateOrderMutation = {
     restaurantID: string,
     createdAt: string,
     updatedAt: string,
-    restaurantOrdersId?: string | null,
   } | null,
 };
 
@@ -869,7 +911,6 @@ export type DeleteOrderMutation = {
     restaurantID: string,
     createdAt: string,
     updatedAt: string,
-    restaurantOrdersId?: string | null,
   } | null,
 };
 
@@ -885,6 +926,17 @@ export type GetChainQuery = {
     branding_banner?: string | null,
     branding_primary_color?: string | null,
     restaurantID: string,
+    restaurant:  {
+      __typename: "Restaurant",
+      id: string,
+      name?: string | null,
+      subdomain?: string | null,
+      branding_banner?: string | null,
+      branding_color?: string | null,
+      chain_id?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    },
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1002,13 +1054,23 @@ export type GetCategoryQuery = {
     id: string,
     name: string,
     restaurantID: string,
+    restaurant:  {
+      __typename: "Restaurant",
+      id: string,
+      name?: string | null,
+      subdomain?: string | null,
+      branding_banner?: string | null,
+      branding_color?: string | null,
+      chain_id?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    },
     items?:  {
       __typename: "ModelMenuItemConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    restaurantCategoriesId?: string | null,
   } | null,
 };
 
@@ -1028,7 +1090,6 @@ export type ListCategoriesQuery = {
       restaurantID: string,
       createdAt: string,
       updatedAt: string,
-      restaurantCategoriesId?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -1052,7 +1113,6 @@ export type CategoriesByRestaurantIDQuery = {
       restaurantID: string,
       createdAt: string,
       updatedAt: string,
-      restaurantCategoriesId?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -1072,7 +1132,6 @@ export type GetMenuItemQuery = {
     categoryID: string,
     createdAt: string,
     updatedAt: string,
-    categoryItemsId?: string | null,
   } | null,
 };
 
@@ -1094,7 +1153,6 @@ export type ListMenuItemsQuery = {
       categoryID: string,
       createdAt: string,
       updatedAt: string,
-      categoryItemsId?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -1120,7 +1178,6 @@ export type MenuItemsByCategoryIDQuery = {
       categoryID: string,
       createdAt: string,
       updatedAt: string,
-      categoryItemsId?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -1146,7 +1203,6 @@ export type GetOrderQuery = {
     restaurantID: string,
     createdAt: string,
     updatedAt: string,
-    restaurantOrdersId?: string | null,
   } | null,
 };
 
@@ -1167,7 +1223,6 @@ export type ListOrdersQuery = {
       restaurantID: string,
       createdAt: string,
       updatedAt: string,
-      restaurantOrdersId?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -1192,7 +1247,6 @@ export type OrdersByRestaurantIDQuery = {
       restaurantID: string,
       createdAt: string,
       updatedAt: string,
-      restaurantOrdersId?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -1210,6 +1264,17 @@ export type OnCreateChainSubscription = {
     branding_banner?: string | null,
     branding_primary_color?: string | null,
     restaurantID: string,
+    restaurant:  {
+      __typename: "Restaurant",
+      id: string,
+      name?: string | null,
+      subdomain?: string | null,
+      branding_banner?: string | null,
+      branding_color?: string | null,
+      chain_id?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    },
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1227,6 +1292,17 @@ export type OnUpdateChainSubscription = {
     branding_banner?: string | null,
     branding_primary_color?: string | null,
     restaurantID: string,
+    restaurant:  {
+      __typename: "Restaurant",
+      id: string,
+      name?: string | null,
+      subdomain?: string | null,
+      branding_banner?: string | null,
+      branding_color?: string | null,
+      chain_id?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    },
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1244,6 +1320,17 @@ export type OnDeleteChainSubscription = {
     branding_banner?: string | null,
     branding_primary_color?: string | null,
     restaurantID: string,
+    restaurant:  {
+      __typename: "Restaurant",
+      id: string,
+      name?: string | null,
+      subdomain?: string | null,
+      branding_banner?: string | null,
+      branding_color?: string | null,
+      chain_id?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    },
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1349,13 +1436,23 @@ export type OnCreateCategorySubscription = {
     id: string,
     name: string,
     restaurantID: string,
+    restaurant:  {
+      __typename: "Restaurant",
+      id: string,
+      name?: string | null,
+      subdomain?: string | null,
+      branding_banner?: string | null,
+      branding_color?: string | null,
+      chain_id?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    },
     items?:  {
       __typename: "ModelMenuItemConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    restaurantCategoriesId?: string | null,
   } | null,
 };
 
@@ -1369,13 +1466,23 @@ export type OnUpdateCategorySubscription = {
     id: string,
     name: string,
     restaurantID: string,
+    restaurant:  {
+      __typename: "Restaurant",
+      id: string,
+      name?: string | null,
+      subdomain?: string | null,
+      branding_banner?: string | null,
+      branding_color?: string | null,
+      chain_id?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    },
     items?:  {
       __typename: "ModelMenuItemConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    restaurantCategoriesId?: string | null,
   } | null,
 };
 
@@ -1389,13 +1496,23 @@ export type OnDeleteCategorySubscription = {
     id: string,
     name: string,
     restaurantID: string,
+    restaurant:  {
+      __typename: "Restaurant",
+      id: string,
+      name?: string | null,
+      subdomain?: string | null,
+      branding_banner?: string | null,
+      branding_color?: string | null,
+      chain_id?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    },
     items?:  {
       __typename: "ModelMenuItemConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    restaurantCategoriesId?: string | null,
   } | null,
 };
 
@@ -1413,7 +1530,6 @@ export type OnCreateMenuItemSubscription = {
     categoryID: string,
     createdAt: string,
     updatedAt: string,
-    categoryItemsId?: string | null,
   } | null,
 };
 
@@ -1431,7 +1547,6 @@ export type OnUpdateMenuItemSubscription = {
     categoryID: string,
     createdAt: string,
     updatedAt: string,
-    categoryItemsId?: string | null,
   } | null,
 };
 
@@ -1449,7 +1564,6 @@ export type OnDeleteMenuItemSubscription = {
     categoryID: string,
     createdAt: string,
     updatedAt: string,
-    categoryItemsId?: string | null,
   } | null,
 };
 
@@ -1473,7 +1587,6 @@ export type OnCreateOrderSubscription = {
     restaurantID: string,
     createdAt: string,
     updatedAt: string,
-    restaurantOrdersId?: string | null,
   } | null,
 };
 
@@ -1497,7 +1610,6 @@ export type OnUpdateOrderSubscription = {
     restaurantID: string,
     createdAt: string,
     updatedAt: string,
-    restaurantOrdersId?: string | null,
   } | null,
 };
 
@@ -1521,6 +1633,5 @@ export type OnDeleteOrderSubscription = {
     restaurantID: string,
     createdAt: string,
     updatedAt: string,
-    restaurantOrdersId?: string | null,
   } | null,
 };

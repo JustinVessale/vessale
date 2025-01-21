@@ -13,7 +13,8 @@
     },
     "categories": {
       "api": {
-        "vessale": {}
+        "vessale": {},
+        "paymentAPI": {}
       },
       "function": {
         "createPaymentIntent": {
