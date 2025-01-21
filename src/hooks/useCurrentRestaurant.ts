@@ -6,7 +6,7 @@ import { generateClient } from 'aws-amplify/data';
 const client = generateClient<Schema>();
 
 export function useCurrentRestaurant() {
-  const [restaurant, setRestaurant] = useState<any | null>(null);
+  const [restaurant, setRestaurant] = useState<Schema["Restaurant"]["type"] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -16,12 +16,9 @@ export function useCurrentRestaurant() {
 
       try {
         const response = await client.models.Restaurant.list()
-        console.log('ZIPPER Response:', response); 
-        // if (!response || response.length === 0) {
-        //   throw new Error(`No restaurant found for subdomain: ${subdomain}`);
-        // }
+        console.log('ZIPPER Response:', response);
 
-        // setRestaurant(response[0]);
+        setRestaurant(response.data[0]);
       } catch (err) {
         console.log('ZIPPER Error:', ErrorEvent); 
         console.log('Full error:', err);
