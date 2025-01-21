@@ -9,7 +9,7 @@ const schema = a.schema({
       branding_banner: a.string(),
       branding_color: a.string(), 
       chain_id: a.id(),
-      categories: a.hasMany("Category", 'id'),
+      categories: a.hasMany("Category", "restaurantID"),
       createdAt: a.datetime(),
       updatedAt: a.datetime()
     })
@@ -19,11 +19,11 @@ const schema = a.schema({
     .model({
       id: a.id(),
       name: a.string().required(),
-      restaurantID: a.string().required(),
-      items: a.hasMany('MenuItem', 'id'),
+      restaurantID: a.id().required(),
+      restaurant: a.belongsTo("Restaurant", "restaurantID"),
+      items: a.hasMany('MenuItem', "categoryID"),
       createdAt: a.datetime(),
-      updatedAt: a.datetime(),
-      restaurantCategoriesId: a.string()
+      updatedAt: a.datetime()
     })
     .authorization(allow => [allow.publicApiKey()]),
  
@@ -33,13 +33,13 @@ const schema = a.schema({
       name: a.string().required(),
       description: a.string().required(),
       price: a.float().required(),
-      categoryID: a.string().required(), 
+      categoryID: a.id().required(),
+      category: a.belongsTo("Category","categoryID"),
       createdAt: a.datetime(),
-      updatedAt: a.datetime(),
-      categoryItemsId: a.string()
+      updatedAt: a.datetime()
     })
     .authorization(allow => [allow.publicApiKey()])
- });
+});
 export type Schema = ClientSchema<typeof schema>;
 
 export const data = defineData({
